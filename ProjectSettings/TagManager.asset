@@ -6,6 +6,10 @@ TagManager:
   tags:
   - BlendPlane0
   - BlendPlane1
+  - pickaxe
+  - scroll
+  - shovel
+  - radar
   layers:
   - Default
   - TransparentFX
