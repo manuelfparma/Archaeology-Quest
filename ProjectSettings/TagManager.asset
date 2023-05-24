@@ -10,6 +10,7 @@ TagManager:
   - scroll
   - shovel
   - radar
+  - glove
   layers:
   - Default
   - TransparentFX

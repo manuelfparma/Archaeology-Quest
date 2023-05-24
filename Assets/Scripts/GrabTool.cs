@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class GrabTool : MonoBehaviour
 {
-    private Collider currentHolding = null; // to detect the current object being holded
+    public GameObject currentHolding = null; // to detect the current object being holded
     public List<AudioSource> audioSource; // audio sounds when object is picked 
 
     List<string> tools_idx = new List<string>();
@@ -18,29 +18,33 @@ public class GrabTool : MonoBehaviour
         tools_idx.Add("radar");
     }
 
+    private void changeGrabbedObject(Collider new_object) {
+        if (currentHolding != null) //first iteration
+        {
+            currentHolding.transform.SetParent(null);
+            currentHolding.GetComponent<Rotate>().isRotating = true;
+        }
+        currentHolding = new_object.gameObject;
+        new_object.transform.SetParent(transform);
+        currentHolding.GetComponent<Rotate>().isRotating = false;
+    }
+
     public void OnTriggerEnter(Collider other)
     {
         //if (other.gameObject.CompareTag("CollideTool"))
         //{
         //Debug.Log("collision with tool ocurred");
-        if (currentHolding != null) //first iteration
-        {
-            currentHolding.transform.SetParent(null);
-        }
-        currentHolding = other;
-        other.transform.SetParent(transform);
-
+        
+        // check if tool was grabbed
         for (int i = 0; i < tools_idx.Count; i++)
         {
             if (other.gameObject.CompareTag(tools_idx[i]))
             {
                 Debug.Log("Collision with" + tools_idx[i]);
-                Rotate rotationProp = other.gameObject.GetComponent<Rotate>();
-                rotationProp.isRotating = false;
+                changeGrabbedObject(other);
                 //audioSource[ i ].Play();
             }
         }
-
 
         //}
     }
