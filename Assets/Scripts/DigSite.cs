@@ -6,6 +6,7 @@ public class DigSite : MonoBehaviour
 {
     public GameObject dirt;
     public GameObject fossil;
+    public GameObject information;
     public Vector3 movementSpeed;
     private int digTimes = 4;
     private bool shovelTime = false;
@@ -28,11 +29,19 @@ public class DigSite : MonoBehaviour
         }
     }
 
+    private void FossilInfo() {
+        information.SetActive(true);
+        fossil.SetActive(false);
+    }
+
     public void OnTriggerEnter(Collider other) {
         if (other.gameObject.CompareTag("glove")) {
             GameObject tool = other.GetComponent<GrabTool>().currentHolding;
-            if (tool != null && digTimes > 0) {
-                DigDirt(tool);
+            if (tool != null) {
+                if (digTimes > 0)
+                    DigDirt(tool);
+                else if (tool.CompareTag("scroll"))
+                    FossilInfo();
             }
         }
     }
