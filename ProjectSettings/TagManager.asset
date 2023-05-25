@@ -11,6 +11,7 @@ TagManager:
   - shovel
   - radar
   - glove
+  - digsite
   layers:
   - Default
   - TransparentFX
