@@ -32,11 +32,16 @@ public class DigSite : MonoBehaviour
             }
         }
     }
-
+    private IEnumerator DespawnScroll()
+    {
+        yield return new WaitForSeconds(7);
+        scroll.SetActive(false); 
+    }
     public void ShowFossilInfo() {
         fossil.GetComponent<Rotate>().isRotating = false;
         information.SetActive(true);
         scroll.SetActive(true);
+        StartCoroutine(DespawnScroll());
         fossil.SetActive(false);
 
         digSiteSpawner.RemoveDigSiteFromList(gameObject);
