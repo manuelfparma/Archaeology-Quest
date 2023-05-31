@@ -9,6 +9,8 @@ public class GrabObject : MonoBehaviour
     public List<AudioSource> audioSource; // audio sounds when object is picked 
 
     List<string> tools_idx = new List<string>();
+    
+    public GameObject digpile;
 
     public void Start()
     {
@@ -25,6 +27,11 @@ public class GrabObject : MonoBehaviour
         Rotate rotation = currentHolding.GetComponent<Rotate>();
         if (rotation != null)
             rotation.isRotating = false;
+
+        if (new_object.CompareTag("radar")){
+            float distance = Vector3.Distance(gameObject.transform.position, digpile.transform.position);
+            Debug.Log("distance: " + distance);
+        }
     }
 
     public void dropCurrentObject() {
