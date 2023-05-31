@@ -25,6 +25,8 @@ public class GrabObject : MonoBehaviour
         Rotate rotation = currentHolding.GetComponent<Rotate>();
         if (rotation != null)
             rotation.isRotating = false;
+        if (currentHolding.CompareTag("radar"))
+            currentHolding.GetComponent<RadarBeep>().isOn = true;
     }
 
     public void dropCurrentObject() {
@@ -34,6 +36,8 @@ public class GrabObject : MonoBehaviour
             Rotate rotation = currentHolding.GetComponent<Rotate>();
             if (rotation != null)
                 rotation.isRotating = true;
+            if (currentHolding.CompareTag("radar"))
+                currentHolding.GetComponent<RadarBeep>().isOn = false;
         }
     }
 

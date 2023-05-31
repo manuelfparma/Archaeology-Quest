@@ -8,7 +8,7 @@ public class DigSiteSpawner : MonoBehaviour
     public int maximumDigSites = 3;
     public GameObject digSitePrefab;
     public List<Transform> digSpawnPositions = new List<Transform>();
-    private List<GameObject> digSiteList = new List<GameObject>();
+    public List<GameObject> digSiteList = new List<GameObject>();
     private List<int> currentIndexes = new List<int>();
     public float checkRate = 1;
 
