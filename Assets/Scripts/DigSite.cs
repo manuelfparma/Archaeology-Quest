@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -11,6 +12,8 @@ public class DigSite : MonoBehaviour
     public Vector3 movementSpeed;
     public int digTimes = 4;
     private bool shovelTime = false;
+    private DigSiteSpawner digSiteSpawner;
+    private int ditSiteSpawnIndex;
 
     private void DigDirt(GameObject tool)
     {
@@ -35,6 +38,10 @@ public class DigSite : MonoBehaviour
         information.SetActive(true);
         scroll.SetActive(true);
         fossil.SetActive(false);
+
+        digSiteSpawner.RemoveDigSiteFromList(gameObject);
+        Destroy(gameObject);
+
     }
 
     public void OnTriggerEnter(Collider other) {
@@ -48,5 +55,11 @@ public class DigSite : MonoBehaviour
                 }
             }
         }
+    }
+
+    public void SetSpawner(DigSiteSpawner spawner, int index)
+    {
+        digSiteSpawner = spawner;
+        ditSiteSpawnIndex = index;
     }
 }
