@@ -35,18 +35,18 @@ public class DigSite : MonoBehaviour
     private IEnumerator DespawnScroll()
     {
         yield return new WaitForSeconds(7);
-        scroll.SetActive(false); 
+        scroll.SetActive(false);
+        digSiteSpawner.RemoveDigSiteFromList(gameObject);
+        Destroy(gameObject);
     }
+    
     public void ShowFossilInfo() {
         fossil.GetComponent<Rotate>().isRotating = false;
         information.SetActive(true);
         scroll.SetActive(true);
-        StartCoroutine(DespawnScroll());
         fossil.SetActive(false);
 
-        digSiteSpawner.RemoveDigSiteFromList(gameObject);
-        Destroy(gameObject);
-
+        StartCoroutine(DespawnScroll());
     }
     public void OnTriggerEnter(Collider other) {
         if (other.gameObject.CompareTag("glove")) {
@@ -54,7 +54,7 @@ public class DigSite : MonoBehaviour
             if (tool != null) {
                 if (digTimes > 0)
                     DigDirt(tool);
-                else {
+                else if (fossil.activeSelf) {
                     other.gameObject.GetComponent<GrabObject>().changeGrabbedObject(this.gameObject);
                 }
             }
