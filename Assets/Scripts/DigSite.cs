@@ -48,7 +48,6 @@ public class DigSite : MonoBehaviour
 
         StartCoroutine(DespawnScroll());
     }
-
     public void OnTriggerEnter(Collider other) {
         if (other.gameObject.CompareTag("glove")) {
             GameObject tool = other.GetComponent<GrabObject>().currentHolding;

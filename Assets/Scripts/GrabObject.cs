@@ -9,6 +9,8 @@ public class GrabObject : MonoBehaviour
     public List<AudioSource> audioSource; // audio sounds when object is picked 
 
     List<string> tools_idx = new List<string>();
+    
+    public GameObject digpile;
 
     public void Start()
     {
