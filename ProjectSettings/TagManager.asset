@@ -12,6 +12,7 @@ TagManager:
   - radar
   - glove
   - digsite
+  - BigScroll
   layers:
   - Default
   - TransparentFX
