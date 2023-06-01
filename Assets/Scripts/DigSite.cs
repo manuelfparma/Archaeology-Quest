@@ -11,6 +11,7 @@ public class DigSite : MonoBehaviour
     public GameObject information;
     public Vector3 movementSpeed;
     public int digTimes = 4;
+    public bool visible = false;
     private bool shovelTime = false;
     private DigSiteSpawner digSiteSpawner;
     private int ditSiteSpawnIndex;
@@ -65,5 +66,11 @@ public class DigSite : MonoBehaviour
     {
         digSiteSpawner = spawner;
         ditSiteSpawnIndex = index;
+    }
+
+    public void makeVisible() {
+        dirt.SetActive(true);
+        fossil.SetActive(true);
+        visible = true;
     }
 }

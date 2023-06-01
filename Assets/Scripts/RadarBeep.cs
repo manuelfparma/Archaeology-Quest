@@ -12,6 +12,8 @@ public class RadarBeep : MonoBehaviour
 
     private bool is_playing = false;
 
+    private float DELTA_DIST = 5;
+
     private void Start() {
         beep = GetComponent<AudioSource>();
     }
@@ -22,14 +24,24 @@ public class RadarBeep : MonoBehaviour
         if (!isOn) return;
 
         if (transform.parent != null && transform.parent.CompareTag("glove")) {
-            Vector3 closest = new Vector3(9999, 9999, 9999);
-            float minDist = Vector3.Distance(transform.position, closest);
+            GameObject closestDigSite = null;
+            float minDist = 99999;
 
             // find the closes dig site
             foreach (GameObject digSite in spawner.GetComponent<DigSiteSpawner>().digSiteList) {
+                // radar only searches for invisible objects
+                if (digSite.GetComponent<DigSite>().visible) continue;
+
+                if (closestDigSite == null) {
+                    closestDigSite = digSite;
+                    minDist = Vector3.Distance(transform.position, digSite.transform.position);
+                    continue;
+                }
+                
                 float newDist = Vector3.Distance(transform.position, digSite.transform.position);
+
                 if (newDist < minDist) {
-                    closest = digSite.transform.position;
+                    closestDigSite = digSite;
                     minDist = newDist;
                 }
             }
@@ -37,6 +49,10 @@ public class RadarBeep : MonoBehaviour
             // play a beep when getting closer
             if (!is_playing)
                 StartCoroutine(playBeep(minDist));
+
+            // if radar is close, make digSite appear
+            if (minDist < DELTA_DIST)
+                closestDigSite.GetComponent<DigSite>().makeVisible();
         }
     }
 
