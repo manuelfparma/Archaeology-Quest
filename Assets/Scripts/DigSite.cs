@@ -12,6 +12,8 @@ public class DigSite : MonoBehaviour
     public Vector3 movementSpeed;
     public int digTimes = 4;
     public bool visible = false;
+
+    public float closeTime = 60;
     private bool shovelTime = false;
     private DigSiteSpawner digSiteSpawner;
     private int ditSiteSpawnIndex;
@@ -36,9 +38,10 @@ public class DigSite : MonoBehaviour
             }
         }
     }
+    
     private IEnumerator DespawnScroll()
     {
-        yield return new WaitForSeconds(7);
+        yield return new WaitForSeconds(closeTime);
         scroll.SetActive(false);
         digSiteSpawner.RemoveDigSiteFromList(gameObject);
         Destroy(gameObject);
