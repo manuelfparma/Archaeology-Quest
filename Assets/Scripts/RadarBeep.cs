@@ -18,6 +18,12 @@ public class RadarBeep : MonoBehaviour
         beep = GetComponent<AudioSource>();
     }
 
+    private float calculateDistance(Vector3 digsitePos) {
+        Vector2 aux1 = new Vector2(this.transform.position.x, this.transform.position.z);
+        Vector2 aux2 = new Vector2(digsitePos.x, digsitePos.z);
+        return Vector2.Distance(aux1, aux2);
+    }
+
     // Update is called once per frame
     void Update()
     {
@@ -26,19 +32,22 @@ public class RadarBeep : MonoBehaviour
         if (transform.parent != null && transform.parent.CompareTag("glove")) {
             GameObject closestDigSite = null;
             float minDist = 99999;
+            bool anyVisible = false;
 
             // find the closes dig site
             foreach (GameObject digSite in spawner.GetComponent<DigSiteSpawner>().digSiteList) {
                 // radar only searches for invisible objects
                 if (digSite.GetComponent<DigSite>().visible) continue;
 
+                anyVisible = true;
+
                 if (closestDigSite == null) {
                     closestDigSite = digSite;
-                    minDist = Vector3.Distance(transform.position, digSite.transform.position);
+                    minDist = calculateDistance(digSite.transform.position);
                     continue;
                 }
                 
-                float newDist = Vector3.Distance(transform.position, digSite.transform.position);
+                float newDist = calculateDistance(digSite.transform.position);
 
                 if (newDist < minDist) {
                     closestDigSite = digSite;
@@ -47,7 +56,7 @@ public class RadarBeep : MonoBehaviour
             }
 
             // play a beep when getting closer
-            if (!is_playing)
+            if (anyVisible && !is_playing)
                 StartCoroutine(playBeep(minDist));
 
             // if radar is close, make digSite appear
@@ -60,10 +69,10 @@ public class RadarBeep : MonoBehaviour
         is_playing = true;
         beep.Play();
         float time = 0;
-        if (dist > DELTA_DIST * 4) {
-            time = beep.clip.length * 4;
+        if (dist > DELTA_DIST * 6) {
+            time = beep.clip.length * 10;
         } else if (dist > DELTA_DIST * 2) {
-            time = beep.clip.length * 2;
+            time = beep.clip.length * 5;
         } else {
             time = beep.clip.length;
         }

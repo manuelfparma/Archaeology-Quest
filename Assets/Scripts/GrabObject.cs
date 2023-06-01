@@ -12,6 +12,8 @@ public class GrabObject : MonoBehaviour
     
     public GameObject digpile;
 
+    private float floorHeight = 2;
+
     public void Start()
     {
         tools_idx.Add("pickaxe");
@@ -40,6 +42,11 @@ public class GrabObject : MonoBehaviour
                 rotation.isRotating = true;
             if (currentHolding.CompareTag("radar"))
                 currentHolding.GetComponent<RadarBeep>().isOn = false;
+            currentHolding.transform.position = new Vector3(
+                currentHolding.transform.position.x,
+                floorHeight,
+                currentHolding.transform.position.z
+            );
         }
     }
 
