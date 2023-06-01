@@ -24,6 +24,9 @@ public class DigSite : MonoBehaviour
                 shovelTime = !shovelTime;
                 digTimes--;
 
+                // play sound effect
+                tool.GetComponent<AudioSource>().Play();
+
                 // Translate only the dirt pile
                 dirt.transform.Translate(movementSpeed);
                 if (digTimes == 0) {
@@ -46,6 +49,8 @@ public class DigSite : MonoBehaviour
         information.SetActive(true);
         scroll.SetActive(true);
         fossil.SetActive(false);
+
+        GetComponent<AudioSource>().Play();     // scroll sound effect
 
         StartCoroutine(DespawnScroll());
     }
