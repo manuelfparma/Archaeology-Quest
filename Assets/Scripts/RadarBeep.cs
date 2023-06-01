@@ -59,7 +59,14 @@ public class RadarBeep : MonoBehaviour
     IEnumerator playBeep(float dist) {
         is_playing = true;
         beep.Play();
-        float time = beep.clip.length + dist / 50;
+        float time = 0;
+        if (dist > DELTA_DIST * 4) {
+            time = beep.clip.length * 4;
+        } else if (dist > DELTA_DIST * 2) {
+            time = beep.clip.length * 2;
+        } else {
+            time = beep.clip.length;
+        }
         yield return new WaitForSeconds (time);
         is_playing = false;
     }
