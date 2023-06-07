@@ -33,7 +33,6 @@ public class DigSite : MonoBehaviour
     private void Start()
     {
         indexHiddenObject = UnityEngine.Random.Range(0, hiddenObjects.Count);
-        indexHiddenObject = 1;
         Debug.Log("hiddenindex: " + indexHiddenObject);
         // choosing hidden object
         for (int i = 0; i < hiddenObjects.Count; i++){ hiddenObjects[i].SetActive(false); }
