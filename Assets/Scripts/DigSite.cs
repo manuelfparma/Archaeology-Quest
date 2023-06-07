@@ -4,10 +4,12 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 
+
 public class DigSite : MonoBehaviour
 {
     public GameObject dirt;
-    public GameObject fossil;
+    public List <GameObject> hiddenObjects = new List<GameObject>();
+    public List <GameObject> canvasList = new List<GameObject>();
     public GameObject scroll;
     public List<GameObject> scrollParts = new List<GameObject>();
     int top = 0, mid = 1, bottom = 2; //parts of the scroll
@@ -22,12 +24,18 @@ public class DigSite : MonoBehaviour
     private bool shovelTime = false;
     private DigSiteSpawner digSiteSpawner;
     private int ditSiteSpawnIndex;
+    int indexHiddenObject;
 
-   
-    GameObject scrollTop, scrollMid, scrollBottom;
     private void Start()
     {
-
+        indexHiddenObject = UnityEngine.Random.Range(0, hiddenObjects.Count);
+        Debug.Log("hiddenindex: " + indexHiddenObject);
+        // choosing hidden object
+        for (int i = 0; i < hiddenObjects.Count; i++){ hiddenObjects[i].SetActive(false); }
+        
+        // choosing text
+        for (int i = 0; i < canvasList.Count; i++) { canvasList[i].SetActive(false); }
+       
     }
     private void DigDirt(GameObject tool)
     {
@@ -42,45 +50,47 @@ public class DigSite : MonoBehaviour
 
                 // Translate only the dirt pile
                 dirt.transform.Translate(movementSpeed);
+
                 if (digTimes == 0) {
                     dirt.SetActive(false);
-                    fossil.GetComponent<Rotate>().isRotating = true;
+                    hiddenObjects[indexHiddenObject].GetComponent<Rotate>().isRotating = true;
                 }
             }
         }
     }
     IEnumerator shrinkObject(GameObject top, GameObject mid, float scaleRate, float minScale)
     {
-        float scale_y = top.transform.localScale.y;
-        float pos_z = mid.transform.localPosition.z;
+        float scale_y = mid.transform.localScale.y;
+        float pos_z = top.transform.localPosition.z;
 
-        float posRate = scaleRate * 0.1f;
+        float posRate = -scaleRate * 0.36f;
         while (scale_y > minScale)    //    while the object is larger than desired
         {
             scale_y -= scaleRate * Time.deltaTime;    //    calculate the new scale relative to the rate
             pos_z -= posRate * Time.deltaTime;
-            Vector3 scale = top.transform.localScale;
+            Vector3 scale = mid.transform.localScale;
             scale.y = scale_y;
-            top.transform.localScale = scale;
-            Vector3 pos = mid.transform.localPosition;
+            mid.transform.localScale = scale;
+            Vector3 pos = top.transform.localPosition;
             pos.z = pos_z;
-            mid.transform.localPosition = pos;
+            top.transform.localPosition = pos;
             Debug.Log("newscale: " +  scale);
             yield return null;    //    wait a frame
         }
         digSiteSpawner.RemoveDigSiteFromList(gameObject);
-        Destroy(gameObject);
+        //Destroy(gameObject);
         yield break; 
     }
 
     private IEnumerator DespawnScroll()
     {
         Debug.Log("start scroll despawn time");
-        fossil.GetComponent<Rotate>().isRotating = false;
+        Debug.Log("ho:"+hiddenObjects[indexHiddenObject]);
+        hiddenObjects[indexHiddenObject].GetComponent<Rotate>().isRotating = false;
         information.SetActive(true);
-        
-        
-        fossil.SetActive(false);
+
+
+        hiddenObjects[indexHiddenObject].SetActive(false);
         GetComponent<AudioSource>().Play();     // scroll sound effect
         Debug.Log("closeTime: " + closeTime);
         
@@ -90,16 +100,15 @@ public class DigSite : MonoBehaviour
 
 
         scroll.SetActive(true);
+        canvasList[indexHiddenObject].SetActive(true);
         yield return new WaitForSeconds(closeTime);
         Debug.Log("time to close");
-        miniObject.SetActive(false);
-        information.SetActive(false);
-        StartCoroutine(shrinkObject(scrollParts[bottom], scrollParts[mid], 0.1f, 0.1f));
+
+        canvasList[indexHiddenObject].SetActive(false);
+        StartCoroutine(shrinkObject(scrollParts[bottom], scrollParts[mid], 0.1f, 0.4f));
 
         //StartCoroutine(shrinkObject(scrollMid,0.1f,1));
-
-        
-    }
+     }
     
     public void ShowFossilInfo() {
         StartCoroutine(DespawnScroll());
@@ -110,7 +119,7 @@ public class DigSite : MonoBehaviour
             if (tool != null) {
                 if (digTimes > 0)
                     DigDirt(tool);
-                else if (fossil.activeSelf) {
+                else if (hiddenObjects[indexHiddenObject].activeSelf) {
                     other.gameObject.GetComponent<GrabObject>().changeGrabbedObject(this.gameObject);
                 }
             }
@@ -125,7 +134,7 @@ public class DigSite : MonoBehaviour
 
     public void makeVisible() {
         dirt.SetActive(true);
-        fossil.SetActive(true);
+        hiddenObjects[indexHiddenObject].SetActive(true);
         visible = true;
     }
 }

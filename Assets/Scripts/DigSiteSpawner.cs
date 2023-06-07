@@ -9,6 +9,7 @@ public class DigSiteSpawner : MonoBehaviour
     public GameObject digSitePrefab;
     public List<Transform> digSpawnPositions = new List<Transform>();
     public List<GameObject> digSiteList = new List<GameObject>();
+    //public List<Vector3> scrollPositions = new List<Vector3>(); 
     private List<int> currentIndexes = new List<int>();
     public float checkRate = 1;
 
@@ -16,6 +17,7 @@ public class DigSiteSpawner : MonoBehaviour
     void Start()
     {
         StartCoroutine(SpawnRoutine());
+        //scrollPositions.Add(43.9,0, -33.7);
     }
 
     void Update()
