@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public class DigSite : MonoBehaviour
 {
@@ -10,12 +11,14 @@ public class DigSite : MonoBehaviour
     public GameObject scroll;
     public List<GameObject> scrollParts = new List<GameObject>();
     int top = 0, mid = 1, bottom = 2; //parts of the scroll
+
     public GameObject information;
+    public GameObject miniObject;
     public Vector3 movementSpeed;
     public int digTimes = 4;
     public bool visible = false;
 
-    public float closeTime = 3;
+    public float closeTime = 60;
     private bool shovelTime = false;
     private DigSiteSpawner digSiteSpawner;
     private int ditSiteSpawnIndex;
@@ -46,32 +49,28 @@ public class DigSite : MonoBehaviour
             }
         }
     }
-    IEnumerator shrinkObject(GameObject g, float scaleRate, float minScale)
+    IEnumerator shrinkObject(GameObject top, GameObject mid, float scaleRate, float minScale)
     {
-        float scale_z = g.transform.localScale.z;
-        while (scale_z > minScale)    //    while the object is larger than desired
+        float scale_y = top.transform.localScale.y;
+        float pos_z = mid.transform.localPosition.z;
+
+        float posRate = scaleRate * 0.1f;
+        while (scale_y > minScale)    //    while the object is larger than desired
         {
-            scale_z -= scaleRate * Time.deltaTime;    //    calculate the new scale relative to the rate
-            Vector3 scale = g.transform.localScale;
-            scale.z = scale_z;
-            g.transform.localScale.Set(g.transform.localScale.x, g.transform.localScale.y,scale_z);
+            scale_y -= scaleRate * Time.deltaTime;    //    calculate the new scale relative to the rate
+            pos_z -= posRate * Time.deltaTime;
+            Vector3 scale = top.transform.localScale;
+            scale.y = scale_y;
+            top.transform.localScale = scale;
+            Vector3 pos = mid.transform.localPosition;
+            pos.z = pos_z;
+            mid.transform.localPosition = pos;
+            Debug.Log("newscale: " +  scale);
             yield return null;    //    wait a frame
         }
-        yield break;
-    }
-
-    GameObject GetChildWithName(GameObject obj, string name)
-    {
-        Transform trans = obj.transform;
-        Transform childTrans = trans.Find(name);
-        if (childTrans != null)
-        {
-            return childTrans.gameObject;
-        }
-        else
-        {
-            return null;
-        }
+        digSiteSpawner.RemoveDigSiteFromList(gameObject);
+        Destroy(gameObject);
+        yield break; 
     }
 
     private IEnumerator DespawnScroll()
@@ -84,22 +83,22 @@ public class DigSite : MonoBehaviour
         fossil.SetActive(false);
         GetComponent<AudioSource>().Play();     // scroll sound effect
         Debug.Log("closeTime: " + closeTime);
-        Debug.Log("SM Ls x: " + scrollParts[mid].transform.localScale.x);
-        Debug.Log("SM Ls y: " + scrollParts[mid].transform.localScale.y);
-        Debug.Log("SM Ls z: " + scrollParts[mid].transform.localScale.z);
+        
 
-        scrollParts[mid].transform.localScale.Set(.1f * scrollParts[mid].transform.localScale.x, .1f * scrollParts[mid].transform.localScale.y, .1f * scrollParts[mid].transform.localScale.z);
 
         Debug.Log("activating the scroll parts");
-        scroll.SetActive(true);
 
+
+        scroll.SetActive(true);
         yield return new WaitForSeconds(closeTime);
         Debug.Log("time to close");
+        miniObject.SetActive(false);
+        information.SetActive(false);
+        StartCoroutine(shrinkObject(scrollParts[bottom], scrollParts[mid], 0.1f, 0.1f));
 
         //StartCoroutine(shrinkObject(scrollMid,0.1f,1));
+
         
-        digSiteSpawner.RemoveDigSiteFromList(gameObject);
-        Destroy(gameObject);
     }
     
     public void ShowFossilInfo() {
