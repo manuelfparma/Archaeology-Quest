@@ -18,7 +18,7 @@ public class DigSite : MonoBehaviour
     public int digTimes = 4;
     public bool visible = false;
 
-    public float closeTime = 5 * 60;
+    public float closeTime;
     private bool shovelTime = false;
     private DigSiteSpawner digSiteSpawner;
     private int ditSiteSpawnIndex;
@@ -107,7 +107,7 @@ public class DigSite : MonoBehaviour
 
         scroll.SetActive(true);
         canvasList[indexHiddenObject].SetActive(true);
-        yield return new WaitForSeconds(closeTime);
+        yield return new WaitForSeconds(closeTime * 60);
         Debug.Log("time to close");
 
         canvasList[indexHiddenObject].SetActive(false);

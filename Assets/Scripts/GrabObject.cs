@@ -54,6 +54,8 @@ public class GrabObject : MonoBehaviour
                 floorHeight,
                 objectInitPos.z
             );
+
+            currentHolding = null;
         }
     }
 
