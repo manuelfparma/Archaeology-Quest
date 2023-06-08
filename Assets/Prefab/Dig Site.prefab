@@ -631,7 +631,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4503017455832167426}
-  m_RootOrder: 5
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!82 &8759230221613655233
 AudioSource:
@@ -927,7 +927,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &7870341205232441064
 Transform:
   m_ObjectHideFlags: 0
@@ -941,7 +941,7 @@ Transform:
   m_Children:
   - {fileID: 6554238467765613657}
   m_Father: {fileID: 4503017455832167426}
-  m_RootOrder: 6
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &8546140313511761779
 MonoBehaviour:
@@ -1123,7 +1123,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4503017455832167426}
-  m_RootOrder: 4
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!82 &4555723031136573195
 AudioSource:
@@ -1566,9 +1566,9 @@ Transform:
   - {fileID: 1113973610005965582}
   - {fileID: 1806579316548641358}
   - {fileID: 7178989062129267162}
+  - {fileID: 7870341205232441064}
   - {fileID: 5136528678047094141}
   - {fileID: 774838775684652098}
-  - {fileID: 7870341205232441064}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}

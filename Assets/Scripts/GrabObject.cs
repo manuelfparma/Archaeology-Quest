@@ -6,6 +6,7 @@ using UnityEngine;
 public class GrabObject : MonoBehaviour
 {
     public GameObject currentHolding = null; // to detect the current object being holded
+    private Vector3 objectInitPos;
     public List<AudioSource> audioSource; // audio sounds when object is picked 
 
     List<string> tools_idx = new List<string>();
@@ -13,6 +14,8 @@ public class GrabObject : MonoBehaviour
     public GameObject digpile;
 
     private float floorHeight = 2;
+
+    public GrabObject otherHand;
 
     public void Start()
     {
@@ -23,8 +26,12 @@ public class GrabObject : MonoBehaviour
     }
 
     public void changeGrabbedObject(GameObject new_object) {
+        if (new_object == otherHand.currentHolding)
+            return;
+
         dropCurrentObject();
         currentHolding = new_object;
+        objectInitPos = new_object.transform.position;
         new_object.transform.SetParent(transform);
         Rotate rotation = currentHolding.GetComponent<Rotate>();
         if (rotation != null)
@@ -43,9 +50,9 @@ public class GrabObject : MonoBehaviour
             if (currentHolding.CompareTag("radar"))
                 currentHolding.GetComponent<RadarBeep>().isOn = false;
             currentHolding.transform.position = new Vector3(
-                currentHolding.transform.position.x,
+                objectInitPos.x,
                 floorHeight,
-                currentHolding.transform.position.z
+                objectInitPos.z
             );
         }
     }

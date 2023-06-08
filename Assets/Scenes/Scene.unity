@@ -682,6 +682,7 @@ MonoBehaviour:
   currentHolding: {fileID: 0}
   audioSource: []
   digpile: {fileID: 0}
+  otherHand: {fileID: 1763482903}
 --- !u!65 &53052088
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -7747,6 +7748,7 @@ MonoBehaviour:
   currentHolding: {fileID: 0}
   audioSource: []
   digpile: {fileID: 0}
+  otherHand: {fileID: 53052087}
 --- !u!65 &1763482904
 BoxCollider:
   m_ObjectHideFlags: 0
