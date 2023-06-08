@@ -39,7 +39,7 @@ public class DigSite : MonoBehaviour
         
         // choosing text
         for (int i = 0; i < canvasList.Count; i++) { canvasList[i].SetActive(false); }
-       
+        
     }
     private void DigDirt(GameObject tool)
     {
@@ -141,5 +141,10 @@ public class DigSite : MonoBehaviour
         hiddenObjects[indexHiddenObject].SetActive(true);
         visible = true;
         foundSound.Play();
+    }
+
+    public List<GameObject> getSpawnPositions()
+    {
+        return digSiteSpawner.getDigSiteList();
     }
 }
