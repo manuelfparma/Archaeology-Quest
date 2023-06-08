@@ -65,6 +65,6 @@ public class DigSiteSpawner : MonoBehaviour
 
     public List<GameObject> getDigSiteList()
     {
-        return this.disSiteList;
+        return this.digSiteList;
     }
 }
