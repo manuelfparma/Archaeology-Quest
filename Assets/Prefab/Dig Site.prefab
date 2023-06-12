@@ -1610,7 +1610,7 @@ MonoBehaviour:
   scrollParts:
   - {fileID: 653559737520398928}
   - {fileID: 7289134834651073025}
-  movementSpeed: {x: 0, y: -1, z: 0}
+  movementSpeed: {x: 0, y: -0.7, z: 0}
   digTimes: 4
   visible: 0
   closeTime: 0.5
